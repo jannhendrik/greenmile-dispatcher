@@ -1,0 +1,51 @@
+worker_processes 1;
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    default_type  application/octet-stream;
+
+    sendfile on;
+
+    keepalive_timeout 65;
+
+    upstream haproxy {
+        server haproxy:{{port}};
+    }
+
+    server {
+        listen 443 default_server;
+        server_name {{domain}};
+
+        ssl on;
+        ssl_certificate /usr/local/nginx/conf/server.pem;
+        ssl_certificate_key /usr/local/nginx/conf/server.key;
+
+        location / {
+
+            proxy_pass http://haproxy; # my existing apache instance
+            proxy_set_header Host $host;
+
+            # re-write redirects to http as to https, example: /home
+            proxy_redirect http:// https://;
+        }
+    }
+
+    # Answer let's encrypt requests, but forward everything else to https
+    server {
+      listen 80;
+      server_name  {{domain}}
+      access_log  /var/log/nginx/access.log main;
+
+      # Let's Encrypt certificates with Acmetool
+      location /.well-known/acme-challenge/ {
+        alias /var/www/.well-known/acme-challenge/;
+      }
+
+      location / {
+        return       301 https://haproxy$request_uri;
+      }
+    }
+}
