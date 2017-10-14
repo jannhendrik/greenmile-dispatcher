@@ -7,42 +7,47 @@
 *
 */
 
-package de.greenmile.haproxyssl.generation.util;
+package de.greenmile.dispatcher.generation.util;
 
 import com.beust.jcommander.IStringConverter;
 import com.google.common.base.Preconditions;
-import de.greenmile.haproxyssl.generation.ConfigRoute;
-import de.greenmile.haproxyssl.generation.ConfigRouteBuilder;
+import de.greenmile.dispatcher.generation.ConfigRoute;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConfigRouteConverter implements IStringConverter<List<ConfigRoute>> {
+public class ConfigRouteConverter implements IStringConverter<ConfigRoute> {
 
 
   @Override
-  public List<ConfigRoute> convert(String arg) {
+  public ConfigRoute convert(String arg) {
     Preconditions.checkNotNull(arg, "Please routes config.");
+
     List<ConfigRoute> configRoutes = new ArrayList<>();
+
+    if(arg.length() == 0) {
+      throw new IllegalArgumentException("At least one route must be specified!");
+    }
 
     String[] values = arg.split(";");
 
+    if(values.length == 0) {
+      throw new IllegalArgumentException("At least one route must be specified!");
+    }
+
+    ConfigRoute configRoute = null;
+
     for (String value : values) {
       String[] parts = value.split(">");
-      String[] routePortAndRoute = this.extractValuesFromPart(parts[0]);
       String[] upstreamPortAndRoute = this.extractValuesFromPart(parts[1]);
 
-      ConfigRoute configRoute = ConfigRouteBuilder.init().withPath(routePortAndRoute[0])
-          .withPort(routePortAndRoute[1])
-          .withUpstreamLocation(upstreamPortAndRoute[0]).withUpstreamPort(upstreamPortAndRoute[1])
-          .build();
-
-      configRoutes.add(configRoute);
+       configRoute = ConfigRoute
+          .of(
+              parts[0],
+              upstreamPortAndRoute[0],
+              upstreamPortAndRoute[1]);
     }
 
-    if (configRoutes.size() == 0) {
-      throw new IllegalArgumentException();
-    }
-    return configRoutes;
+    return configRoute;
 
 
   }

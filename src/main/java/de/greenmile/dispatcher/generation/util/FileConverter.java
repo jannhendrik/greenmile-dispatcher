@@ -1,4 +1,4 @@
-package de.greenmile.haproxyssl.generation.util;
+package de.greenmile.dispatcher.generation.util;
 
 import com.beust.jcommander.IStringConverter;
 import java.io.File;

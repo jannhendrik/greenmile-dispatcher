@@ -7,17 +7,18 @@
 *
 */
 
-package de.greenmile.haproxyssl.generation;
+package de.greenmile.dispatcher.generation;
 
 public class ConfigRoute {
 
-  private  String path;
+  private String path;
 
-  private  String port;
+  private String upstreamLocation;
 
-  private  String upstreamLocation;
+  private String upstreamPort;
 
-  private  String upstreamPort;
+  private ConfigRoute() {
+  }
 
   public String getPath() {
     return path;
@@ -25,14 +26,6 @@ public class ConfigRoute {
 
   public void setPath(String path) {
     this.path = path;
-  }
-
-  public String getPort() {
-    return port;
-  }
-
-  public void setPort(String port) {
-    this.port = port;
   }
 
   public String getUpstreamLocation() {
@@ -49,5 +42,17 @@ public class ConfigRoute {
 
   public void setUpstreamPort(String upstreamPort) {
     this.upstreamPort = upstreamPort;
+  }
+
+
+  public static ConfigRoute of(String path, String upstreamLocation,
+      String upstreamPort) {
+    ConfigRoute configRoute = new ConfigRoute();
+
+    configRoute.setPath(path);
+    configRoute.setUpstreamLocation(upstreamLocation);
+    configRoute.setUpstreamPort(upstreamPort);
+
+    return configRoute;
   }
 }

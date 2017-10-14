@@ -127,7 +127,7 @@ types {
     text/mathml                           mml;
     text/plain                            txt;
     text/vcard                            vcard vcf;
-    text/vnd.rim.location.xloc            xloc;
+    text/vnd.rim.target.xloc            xloc;
     text/vnd.sun.j2me.app-descriptor      jad;
     text/vnd.wap.wml                      wml;
     text/vtt                              vtt;

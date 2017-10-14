@@ -7,10 +7,11 @@
 *
 */
 
-package de.greenmile.haproxyssl.generation;
+package de.greenmile.dispatcher.generation;
 
 import com.beust.jcommander.JCommander;
 import com.google.common.annotations.VisibleForTesting;
+import java.io.IOException;
 
 public class CommandLineRunner {
 
@@ -19,8 +20,11 @@ public class CommandLineRunner {
    *
    * @param args
    */
-  public static void main(String... args) {
+  public static void main(String... args) throws IOException {
     ConfigParameter configParameter = CommandLineRunner.parseArgs(args);
+    ConfigGenerator configGenerator = new ConfigGenerator(configParameter);
+
+    configGenerator.generate();
   }
 
 

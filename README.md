@@ -11,11 +11,11 @@ The dockerfile runs a the jar with the following parameters:
 ## Parameters
 | Tables        | Are           | Cool                                | Example             |
 | ------------- |:-------------:| -----------------------------------:| -----------------:  |
-| --domainPrefix| -dp           |  the name of the domain prefix e.g. |'demo'               | 
-| --domain      | -d            |  the name of the domain             |'freightpilot.eu'    |          
+| --domainPrefix| -dp           |  the name of the domains prefix e.g. |'demo'               | 
+| --domains      | -d            |  the name of the domains             |'freightpilot.eu'    |          
 | --routes      | -r            |    $1                               |'maint'              |
 
 
 ## Usage Example
 
-nginxgen --domainPrefix demo datel --domain freightpilot.eu freightpilot.de -domain 
+nginxgen --domainPrefix demo datel --domains freightpilot.eu freightpilot.de -domains 
